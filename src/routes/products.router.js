@@ -1,6 +1,6 @@
-const express=require('express')
+import express from'express'
 
-module.exports=(productManager)=>{
+export default(productManager)=>{
     const router=express.Router()
 
     router.get('/',async(req,res)=>{

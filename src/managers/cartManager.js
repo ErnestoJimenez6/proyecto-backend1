@@ -1,4 +1,4 @@
-const fs=require('fs').promises
+import fs from 'fs/promises'
 
 class CartManager{
     constructor(filePath){
@@ -24,10 +24,10 @@ class CartManager{
             const carts=await this.getCarts()
             const newCart={
                 id:this.generateId(carts),
-                products:[]
+                products: []
             }
             carts.push(newCart)
-            await fs.writeFile(this.filePath,JSON.stringify(carts,null,2))
+            await fs.writeFile(this.filePath, JSON.stringify(carts,null,2))
             console.log('Carrito creado:',newCart)
             return newCart
         }catch(error){
@@ -40,11 +40,11 @@ class CartManager{
             const data=await fs.readFile(this.filePath,'utf-8')
             return JSON.parse(data)
         }catch(error){
-            if(error.code==='ENOENT'){
+            if (error.code==='ENOENT'){
                 console.log('El archivo no existe, se creará uno nuevo.')
                 return []
             }else{
-                console.error('Error al leer los carritos: ',error)
+                console.error('Error al leer los carritos:',error)
                 return []
             }
         }
@@ -66,23 +66,20 @@ class CartManager{
         }
     }
 
-    async addProductToCart(cartId,productId){
+    async addProductToCart(cartId, productId){
         try{
             const carts=await this.getCarts()
             const cartIndex=carts.findIndex(c=>c.id===cartId)
-            if(cartIndex !== -1){
+            if(cartIndex!==-1){
                 const cart=carts[cartIndex]
                 const productIndex=cart.products.findIndex(p=>p.product===productId)
-                if(productIndex !== -1){
-                    cart.products[productIndex].quantity += 1
+                if (productIndex!==-1){
+                    cart.products[productIndex].quantity+=1
                 }else{
-                    cart.products.push({
-                        product:productId,
-                        quantity:1
-                    })
+                    cart.products.push({ product:productId,quantity:1})
                 }
                 await fs.writeFile(this.filePath,JSON.stringify(carts,null,2))
-                console.log('Producto agregado al carrito:', cart)
+                console.log('Producto agregado al carrito:',cart)
                 return cart
             }else{
                 console.error('Carrito no encontrado.')
@@ -95,8 +92,8 @@ class CartManager{
     }
 
     generateId(carts){
-        return carts.length > 0 ? Math.max(...carts.map(c=>c.id))+ 1 : 1
+        return carts.length>0?Math.max(...carts.map(c=>c.id))+1:1
     }
 }
 
-module.exports=CartManager
+export default CartManager

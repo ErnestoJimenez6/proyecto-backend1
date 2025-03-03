@@ -1,22 +1,56 @@
-const express=require('express')
+import express from'express'
+import{engine}from'express-handlebars'
+import ProductManager from'./managers/productManager.js'
+import CartManager from'./managers/cartManager.js'
+import productsRouter from'./routes/products.router.js'
+import cartsRouter from'./routes/carts.router.js'
+import viewsRouter from'./routes/views.router.js'
+import multer from'multer'
+import{Server}from'socket.io'
+
 const app=express()
-const ProductManager=require('./managers/productManager')
-const CartManager=require('./managers/cartManager')
+const upload=multer({dest:'upload/'})
+
+//Configuración de Handlebars
+app.engine('handlebars',engine({
+    defaultLayout:'main',
+    partialsDir:'./src/views/partials'
+}))
+app.set('view engine','handlebars')
+app.set('views','./src/views')
+app.post('/upload',upload.single('archivo'),(req,res)=>{
+    console.log(req.file)
+    res.send('archivo subido')
+})
+
+//middleware
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use(express.static('./src/public'))
 
 const productManager=new ProductManager('./src/data/products.json')
 const cartManager=new CartManager('./src/data/carts.json')
 
-app.use(express.json())
+//Rutas para productos y carritos
+app.use('/api/products',productsRouter(productManager))
+app.use('/api/carts', cartsRouter(cartManager))
 
-// Rutas para productos
-const productsRouter=require('./routes/products.router')(productManager)
-app.use('/api/products',productsRouter)
-
-// Rutas para carritos
-const cartsRouter=require('./routes/carts.router')(cartManager)
-app.use('/api/carts',cartsRouter)
+//Ruta para vistas
+app.use('/',viewsRouter)
 
 const port=8080
-app.listen(port,()=>{
-    console.log(`servidor escuchando en http://localhost:${port}`)
+const httpServer=app.listen(port,()=>{
+    console.log(`Servidor escuchando en http://localhost:${port}`)
+})
+
+const io=new Server(httpServer)
+
+let messages=[]
+
+io.on('connection',(socket)=>{
+    console.log('usuario conectado...')
+    socket.on('message',data=>{
+        messages.push(data)
+        socket.emit('messageLogs',messages)
+    })
 })

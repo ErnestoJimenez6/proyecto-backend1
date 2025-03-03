@@ -1,6 +1,6 @@
-const express=require('express')
+import express from'express'
 
-module.exports=(cartManager)=>{
+export default(cartManager)=>{
     const router=express.Router()
 
     router.post('/',async(req,res)=>{
