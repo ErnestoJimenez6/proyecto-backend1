@@ -8,6 +8,9 @@
     "start": "node ./src/app.js",
     "dev": "nodemon ./src/app.js"
   },
+  "engines":{
+    "node":"14.x"
+  },
   "keywords": [],
   "author": "Ernesto Jimenez",
   "license": "ISC",
