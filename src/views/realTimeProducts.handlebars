@@ -1,0 +1,62 @@
+<div class="product-grid" id="productList">
+    {{#each products}}
+        <div class="product-card">
+            <h3 class="title">{{this.title}}</h3>
+            <p>{{this.description}}</p>
+            <p><strong>Género:</strong> {{this.genre}}</p>
+            <p><strong>Precio:</strong> ${{this.price}}</p>
+            <p><strong>Stock:</strong> {{this.stock}}</p>
+            <button onclick="deleteProduct('{{this.id}}')">Eliminar</button>
+        </div>
+    {{/each}}
+</div>
+
+<form id="productForm">
+    <input type="text" id="title" placeholder="Título" required>
+    <input type="text" id="description" placeholder="Descripción" required>
+    <input type="number" id="price" placeholder="Precio" required>
+    <input type="text" id="genre" placeholder="Género" required>
+    <input type="number" id="stock" placeholder="Stock" required>
+    <button type="submit">Agregar Libro</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket=io()
+
+    // Escuchar eventos de actualización de productos
+    socket.on('updateProducts',(products)=>{
+        const productList=document.getElementById('productList')
+        productList.innerHTML=''
+        products.forEach(product=>{
+            const productCard=document.createElement('div')
+            productCard.className='product-card'
+            productCard.innerHTML=`
+                <h3>${product.title}</h3>
+                <p>${product.description}</p>
+                <p><strong>Género:</strong> ${product.genre}</p>
+                <p><strong>Precio:</strong> $${product.price}</p>
+                <p><strong>Stock:</strong> ${product.stock}</p>
+                <button onclick="deleteProduct('${product.id}')">Eliminar</button>
+            `
+            productList.appendChild(productCard)
+        })
+    })
+
+    // Enviar nuevo libro al servidor
+    document.getElementById('productForm').addEventListener('submit',(event)=>{
+        event.preventDefault()
+        const title=document.getElementById('title').value
+        const description=document.getElementById('description').value
+        const price=document.getElementById('price').value
+        const genre=document.getElementById('genre').value
+        const stock=document.getElementById('stock').value
+        socket.emit('addProduct',{title,description,price,genre,stock})
+        document.getElementById('productForm').reset()
+    })
+
+    // Eliminar libro
+    function deleteProduct(id){
+        socket.emit('deleteProduct',id)
+    }
+</script>

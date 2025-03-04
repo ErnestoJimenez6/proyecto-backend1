@@ -1,4 +1,4 @@
-import fs from'fs/promises'
+import fs from 'fs/promises'
 
 class ProductManager{
     constructor(filePath){
@@ -10,11 +10,11 @@ class ProductManager{
         try{
             await fs.access(this.filePath)
         }catch(error){
-            if(error.code==='ENOENT'){
-                await fs.writeFile(this.filePath,'[]')
+            if (error.code==='ENOENT'){
+                await fs.writeFile(this.filePath, '[]')
                 console.log(`Archivo ${this.filePath} creado.`)
             }else{
-                console.error('Error al inicializar el archivo:', error)
+                console.error('Error al inicializar el archivo:',error)
             }
         }
     }
@@ -42,7 +42,7 @@ class ProductManager{
         }catch(error){
             if (error.code==='ENOENT'){
                 console.log('El archivo no existe, se creará uno nuevo.')
-                return []
+                return[]
             }else{
                 console.error('Error al leer los productos:',error)
                 return []
@@ -70,8 +70,8 @@ class ProductManager{
         try{
             const products=await this.getProducts()
             const productIndex=products.findIndex(p=>p.id===id)
-            if(productIndex!== -1){
-                products[productIndex]={ ...products[productIndex], ...updatedFields}
+            if(productIndex!==-1){
+                products[productIndex]={...products[productIndex], ...updatedFields}
                 await fs.writeFile(this.filePath,JSON.stringify(products,null,2))
                 console.log('Producto actualizado:',products[productIndex])
                 return products[productIndex]

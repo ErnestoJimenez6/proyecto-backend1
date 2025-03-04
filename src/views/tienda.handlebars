@@ -1,7 +1,33 @@
-<h2>Estos son los roductos de mi tienda</h2>
+<h2>Nuestra Colección de Libros</h2>
 
-<ul>
+<div class="product-grid">
     {{#each products}}
-        <li>{{this.title}} - ${{this.price}}</li>
+        <a href="/product/{{this.id}}" class="product-card">
+            <h3 class="title">{{this.title}}</h3>
+            <p>{{this.description}}</p>
+            <p><strong>Género:</strong> {{this.genre}}</p>
+            <p><strong>Precio:</strong> ${{this.price}}</p>
+            <p><strong>Stock:</strong> {{this.stock}}</p>
+            <button onclick="addToCart('{{this.id}}')">Agregar al carrito</button>
+        </a>
     {{/each}}
-</ul>
+</div>
+
+<script>
+    function addToCart(productId){
+        const cartId=1
+        fetch(`/api/carts/${cartId}/product/${productId}`,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }).then(response=>{
+            if(!response.ok){
+                alert('Producto agregado al carrito')
+            }
+        }).catch(error=>{
+            cosole.error('Error',error)
+            alert('Error al agregar el producto')
+        })
+    }
+</script> 

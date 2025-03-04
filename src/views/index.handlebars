@@ -1,21 +1,25 @@
-<h1>Titulo de mi proyecto</h1>
-
-<p>mi nombre es {{usuario.nombre}}</p>
-<p>mi apellido es {{usuario.apellido}}</p>
-
-<input type="text" id="chatBox">
-<div>
-    <p id="messageLogs"></p>
-</div>
-
-{{#if usuario.mayorEdad}}
-    <p>es mayor de edad</p>
-{{else}}
-    <p>Es menor de edad</p>
-{{/if}}
-
-{{>card}}
-
-<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="js/main.js"></script>
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Librería Especulativa</title>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
+    <body>
+        <main>
+            <h2 class="title">Libros</h2>
+            <div class="product-grid">
+                {{#each products}}
+                    <a href="/product/{{this.id}}" class="product-card">
+                        <h3>{{this.title}}</h3>
+                        <p>{{this.description}}</p>
+                        <p><strong>Género:</strong> {{this.genre}}</p>
+                        <p><strong>Precio:</strong> ${{this.price}}</p>
+                        <p><strong>Stock:</strong> {{this.stock}}</p>
+                    </a>
+                {{/each}}
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,4 +1,4 @@
-import fs from 'fs/promises'
+import fs from'fs/promises'
 
 class CartManager{
     constructor(filePath){
@@ -10,11 +10,11 @@ class CartManager{
         try{
             await fs.access(this.filePath)
         }catch(error){
-            if(error.code==='ENOENT'){
+            if (error.code==='ENOENT'){
                 await fs.writeFile(this.filePath,'[]')
                 console.log(`Archivo ${this.filePath} creado.`)
             }else{
-                console.error('Error al inicializar el archivo:',error)
+                console.error('Error al inicializar el archivo:', error);
             }
         }
     }
@@ -24,10 +24,10 @@ class CartManager{
             const carts=await this.getCarts()
             const newCart={
                 id:this.generateId(carts),
-                products: []
+                products:[]
             }
             carts.push(newCart)
-            await fs.writeFile(this.filePath, JSON.stringify(carts,null,2))
+            await fs.writeFile(this.filePath,JSON.stringify(carts,null,2))
             console.log('Carrito creado:',newCart)
             return newCart
         }catch(error){
@@ -37,10 +37,10 @@ class CartManager{
 
     async getCarts(){
         try{
-            const data=await fs.readFile(this.filePath,'utf-8')
+            const data = await fs.readFile(this.filePath,'utf-8')
             return JSON.parse(data)
         }catch(error){
-            if (error.code==='ENOENT'){
+            if(error.code==='ENOENT'){
                 console.log('El archivo no existe, se creará uno nuevo.')
                 return []
             }else{
@@ -53,7 +53,7 @@ class CartManager{
     async getCartById(id){
         try{
             const carts=await this.getCarts()
-            const cart=carts.find(c=>c.id===id)
+            const cart=carts.find((c)=>c.id===id)
             if(cart){
                 return cart
             }else{
@@ -66,17 +66,17 @@ class CartManager{
         }
     }
 
-    async addProductToCart(cartId, productId){
+    async addProductToCart(cartId,productId){
         try{
             const carts=await this.getCarts()
             const cartIndex=carts.findIndex(c=>c.id===cartId)
             if(cartIndex!==-1){
                 const cart=carts[cartIndex]
                 const productIndex=cart.products.findIndex(p=>p.product===productId)
-                if (productIndex!==-1){
+                if(productIndex!==-1){
                     cart.products[productIndex].quantity+=1
                 }else{
-                    cart.products.push({ product:productId,quantity:1})
+                    cart.products.push({product:productId,quantity:1})
                 }
                 await fs.writeFile(this.filePath,JSON.stringify(carts,null,2))
                 console.log('Producto agregado al carrito:',cart)
@@ -92,7 +92,7 @@ class CartManager{
     }
 
     generateId(carts){
-        return carts.length>0?Math.max(...carts.map(c=>c.id))+1:1
+        return carts.length>0?Math.max(...carts.map((c)=>c.id))+ 1 : 1
     }
 }
 

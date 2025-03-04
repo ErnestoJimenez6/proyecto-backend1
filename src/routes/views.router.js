@@ -1,33 +1,66 @@
 import{Router}from'express'
+import ProductManager from'../managers/productManager.js'
 
-const router=Router()
+export default(productManager,cartManager)=>{
+    const router=Router()
 
-// Array de productos
-const arrayProductos=[
-    {nombre:'Libro1',descripcion:'Ciencia Ficción',precio:100},
-    {nombre:'Libro2',descripcion:'Terror',precio:200},
-    {nombre:'Libro3',descripcion:'Fantasía',precio:300},
-    {nombre:'Libro4',descripcion:'Ciencia Ficción',precio:400},
-    {nombre:'Libro5',descripcion:'Terror',precio:500},
-    {nombre:'Libro6',descripcion:'Fantasía',precio:600}
-]
+    // Ruta principal (home)
+    router.get('/',async(req,res)=>{
+        const products=await productManager.getProducts()
+        res.render('index',{products})
+    })
 
-// Rutas
-router.get('/',(req,res)=>{
-    const usuario={
-        nombre:'Ernesto',
-        apellido:'Jimenez',
-        mayorEdad:true
-    }
-    res.render('index',{usuario,arrayProductos})
-})
+    // Ruta de contacto
+    router.get('/contactos',(req,res)=>{
+        res.render('contactos')
+    })
 
-router.get('/contactos',(req,res)=>{
-    res.render('contactos')
-})
+    // Ruta de la tienda
+    router.get('/tienda',async(req,res)=>{
+        const products=await productManager.getProducts()
+        res.render('tienda',{products})
+    })
 
-router.get('/tienda',(req,res)=>{
-    res.render('tienda')
-})
+    // Ruta de productos en tiempo real
+    router.get('/realtimeproducts',async(req,res)=>{
+        const products=await productManager.getProducts()
+        res.render('realTimeProducts',{products})
+    })
 
-export default router
+    // Ruta para detalles del producto
+    router.get('/product/:id',async(req,res)=>{
+        const productId=parseInt(req.params.id)
+        const product=await productManager.getProductById(productId)
+        if(product){
+            res.render('productDetail',{product})
+        }else{
+            res.status(404).send('Libro no encontrado')
+        }
+    })
+
+    // Ruta para el carrito
+    router.get('/cart',async(req,res)=>{
+        try{
+            const carts=await cartManager.getCarts()
+            let cart
+    
+            if(carts.length===0){
+                cart=await cartManager.createCart()
+            }else{
+                const cartId=carts[0].id
+                cart=await cartManager.getCartById(cartId)
+            }
+    
+            if(cart){
+                res.render('cart',{cart})
+            }else{
+                res.status(404).send('Carrito no encontrado')
+            }
+        }catch(error){
+            console.error('Error al obtener el carrito:',error)
+            res.status(500).send('Error interno del servidor')
+        }
+    })
+
+    return router
+}

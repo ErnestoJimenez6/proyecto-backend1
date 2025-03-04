@@ -1,5 +1,3 @@
-console.log('funciona todo?')
-
 const socket=io()
 
 let user
