@@ -37,7 +37,7 @@ class CartManager{
 
     async getCarts(){
         try{
-            const data = await fs.readFile(this.filePath,'utf-8')
+            const data=await fs.readFile(this.filePath,'utf-8')
             return JSON.parse(data)
         }catch(error){
             if(error.code==='ENOENT'){

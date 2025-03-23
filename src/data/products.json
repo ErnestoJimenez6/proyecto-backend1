@@ -1,58 +1,58 @@
 [
   {
-    "id": 1,
-    "title": "Dune",
-    "description": "Una épica historia de ciencia ficción en el desértico planeta Arrakis.",
-    "price": 2000,
-    "genre": "Ciencia Ficción",
-    "stock": 5
+    "id":1,
+    "title":"Dune",
+    "description":"Una épica historia de ciencia ficción en el desértico planeta Arrakis.",
+    "price":2000,
+    "genre":"Ciencia Ficción",
+    "stock":20
   },
   {
-    "id": 2,
-    "title": "El Señor de los Anillos",
-    "description": "La clásica trilogía de fantasía que sigue la búsqueda del Anillo Único.",
-    "price": 1500,
-    "genre": "Fantasía",
-    "stock": 15
+    "id":2,
+    "title":"El Señor de los Anillos",
+    "description":"La clásica trilogía de fantasía que sigue la búsqueda del Anillo Único.",
+    "price":1500,
+    "genre":"Fantasía",
+    "stock":15
   },
   {
-    "id": 3,
-    "title": "It",
-    "description": "Una aterradora historia de terror sobre un payaso malévolo que aterroriza a un pueblo.",
-    "price": 1000,
-    "genre": "Terror",
-    "stock": 8
+    "id":3,
+    "title":"It",
+    "description":"Una aterradora historia sobre un payaso malévolo que aterroriza a un pueblo.",
+    "price":1000,
+    "genre":"Terror",
+    "stock":8
   },
   {
-    "id": 4,
-    "title": "1984",
-    "description": "Una distopía clásica que explora temas de vigilancia y control gubernamental.",
-    "price": 900,
-    "genre": "Ciencia Ficción",
-    "stock": 12
+    "id":4,
+    "title":"1984",
+    "description":"Una distopía clásica que explora temas de vigilancia y control gubernamental.",
+    "price":900,
+    "genre":"Ciencia Ficción",
+    "stock":12
   },
   {
-    "id": 5,
-    "title": "Harry Potter y la Piedra Filosofal",
-    "description": "El primer libro de la famosa serie de fantasía sobre un joven mago.",
-    "price": 1100,
-    "genre": "Fantasía",
-    "stock": 20
+    "id":5,
+    "title":"Harry Potter y la Piedra Filosofal",
+    "description":"El primer libro de la famosa serie de fantasía sobre un joven mago.",
+    "price":1100,
+    "genre":"Fantasía",
+    "stock":20
   },
   {
-    "id": 6,
-    "title": "El Resplandor",
-    "description": "Una novela de terror sobre un hombre que enloquece en un hotel aislado.",
-    "price": 950,
-    "genre": "Terror",
-    "stock": 7
+    "id":6,
+    "title":"El Resplandor",
+    "description":"Una novela de terror sobre un hombre que enloquece en un hotel aislado.",
+    "price":950,
+    "genre":"Terror",
+    "stock":7
   },
   {
-    "id": 7,
-    "title": "Neuromante",
-    "description": "Una novela de ciencia ficción que define el género cyberpunk.",
-    "price": 1500,
-    "genre": "Ciencia Ficción",
-    "stock": 10
+    "id":7,
+    "title":"Neuromante",
+    "description":"La novela de ciencia ficción que definió el cyberpunk.",
+    "price":1500,
+    "genre":"Ciencia Ficción",
+    "stock":10
   }
 ]

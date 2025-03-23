@@ -7,7 +7,26 @@ import cartsRouter from'./routes/carts.router.js'
 import viewsRouter from'./routes/views.router.js'
 import{Server}from'socket.io'
 
+const{MongoClient}=require('mongodb')
+
+async function insertProducts(){
+    const client=new MongoClient('mongobd://localhost:27017')
+    await client.connect()
+
+    const db=client.db('tienda')
+    const result=await db.collection('libros').insertOne({
+        nombre:'Duna',
+        precio:2000,
+        stock:20
+    })
+
+    console.log('libro insertado con id',result.insertedId)
+    await client.close()
+}
+
 const app=express()
+
+insertProducts()
 
 // Configuración de Handlebars
 app.engine('handlebars',engine({
