@@ -24,16 +24,19 @@ async function updateCartCounter(){
 
 async function addToCart(productId){
     try{
-        const response=await fetch(`/api/carts/1/products/${productId}`,{
+        const response=await fetch(`/api/carts/67e2b9f655a6b5c400d6a9ae/products/${productId}`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
-            }
+            },
+            body: JSON.stringify({quantity:1})
         })
 
         const result=await response.json()
 
-        if(!response.ok) throw new Error(result.error||'Error desconocido')
+        if(!response.ok){
+            throw new Error(result.error||'Error al agregar producto al carrito')
+        }
 
         await Swal.fire({
             position:'top-end',
@@ -45,6 +48,7 @@ async function addToCart(productId){
 
         updateCartCounter()
     }catch(error){
+        console.error('Error:',error)
         await Swal.fire({
             icon:'error',
             title:'Error',

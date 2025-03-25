@@ -19,12 +19,11 @@ export default(productManager,cartManager)=>{
     })
 
     router.get('/product/:id',async(req,res)=>{
-        const productId=req.params.id
-        const product=await productManager.getProductById(productId)
-        if(product){
+        try{
+            const product=await productManager.getProductById(req.params.id)
             res.render('productDetail',{product})
-        }else{
-            res.status(404).send('Libro no encontrado')
+        }catch(error){
+            res.status(404).render('error',{error:error.message})
         }
     })
 

@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{product.title}} - Librería Especulativa</title>
         <link rel="stylesheet" href="/css/styles.css">
+        <!-- Agrega SweetAlert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body>
         <main>
@@ -18,9 +20,31 @@
         </main>
 
         <script>
+            async function getOrCreateCart(){
+                try{
+                    const response=await fetch('/api/carts',{
+                        method:'POST'
+                    })
+                    return await response.json()
+                }catch(error){
+                    console.error('Error al obtener carrito:',error)
+                    throw error
+                }
+            }
+
             async function addToCart(productId){
                 try{
-                    const response=await fetch(`/api/carts/1/products/${productId}`,{
+                    const cartResponse=await fetch('/api/carts/active')
+                    let cart
+                    
+                    if(cartResponse.ok){
+                        cart=await cartResponse.json()
+                    }else{
+                        const newCart=await getOrCreateCart()
+                        cart=newCart
+                    }
+
+                    const response=await fetch(`/api/carts/${cart._id}/products/${productId}`,{
                         method:'POST',
                         headers:{
                             'Content-Type':'application/json'
@@ -29,10 +53,9 @@
 
                     if(!response.ok){
                         const error=await response.json()
-                        throw new Error(error.message||'Error al agregar al carrito')
+                        throw new Error(error.message||'Error al agregar al carrito');
                     }
 
-                    const result=await response.json()
                     Swal.fire({
                         icon:'success',
                         title:'Producto agregado',
@@ -40,8 +63,6 @@
                         timer:1500
                     })
 
-                    // Actualizar contador del carrito
-                    updateCartCounter()
                 }catch(error){
                     Swal.fire({
                         icon:'error',
