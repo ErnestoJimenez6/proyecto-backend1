@@ -12,12 +12,13 @@
                 <ul>
                     {{#each cart.products}}
                         <li>
-                            <h3 class="title">{{this.product.title}}</h3>
+                            <h3>{{this.product.title}}</h3>
                             <p>Cantidad: {{this.quantity}}</p>
-                            <button onclick="removeFromCart('{{this.product.id}}')">Eliminar</button>
+                            <button onclick="removeFromCart('{{this.product._id}}')">Eliminar</button>
                         </li>
                     {{/each}}
                 </ul>
+                <p><strong>Total del carrito:</strong> ${{calculateTotal cart.products}}</p>
             {{else}}
                 <p>Tu carrito está vacío.</p>
             {{/if}}
@@ -26,13 +27,13 @@
 
         <script>
             function removeFromCart(productId){
-                fetch(`/api/carts/product/${productId}`,{
+                fetch(`/api/carts/{{cart._id}}/products/${productId}`,{
                     method:'DELETE',
                     headers:{
                         'Content-Type':'application/json'
                     }
                 }).then(response=>{
-                    if (response.ok){
+                    if(response.ok){
                         alert('Producto eliminado del carrito')
                         location.reload()
                     }else{

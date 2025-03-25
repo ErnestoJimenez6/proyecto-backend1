@@ -4,18 +4,19 @@ export default(productManager)=>{
     const router=express.Router()
 
     router.get('/',async(req,res)=>{
-        const products=await productManager.getProducts()
-        res.json(products)
+        const{limit=10,page=1,sort,query}=req.query
+        const filter=query?JSON.parse(query):{}
+        const options={limit:parseInt(limit),page:parseInt(page),sort,query:filter}
+        const result=await productManager.getProducts({},options)
+        res.json(result)
     })
 
     router.get('/:pid',async(req,res)=>{
-        const product=await productManager.getProductById(parseInt(req.params.pid))
+        const product=await productManager.getProductById(req.params.pid)
         if(product){
             res.json(product)
         }else{
-            res.status(404).json({
-                error:'Producto no encontrado'
-            })
+            res.status(404).json({error:'Producto no encontrado'})
         }
     })
 
@@ -25,24 +26,20 @@ export default(productManager)=>{
     })
 
     router.put('/:pid',async(req,res)=>{
-        const updatedProduct=await productManager.updateProduct(parseInt(req.params.pid),req.body)
+        const updatedProduct=await productManager.updateProduct(req.params.pid,req.body)
         if(updatedProduct){
             res.json(updatedProduct)
         }else{
-            res.status(404).json({
-                error:'Producto no encontrado'
-            })
+            res.status(404).json({error:'Producto no encontrado'})
         }
     })
 
     router.delete('/:pid',async(req,res)=>{
-        const deletedProduct=await productManager.deleteProduct(parseInt(req.params.pid))
+        const deletedProduct=await productManager.deleteProduct(req.params.pid)
         if(deletedProduct){
             res.json(deletedProduct)
         }else{
-            res.status(404).json({
-                error:'Producto no encontrado'
-            })
+            res.status(404).json({error:'Producto no encontrado'})
         }
     })
 

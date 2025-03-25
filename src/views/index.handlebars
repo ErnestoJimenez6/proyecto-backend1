@@ -11,14 +11,24 @@
             <h2 class="title">Libros</h2>
             <div class="product-grid">
                 {{#each products}}
-                    <a href="/product/{{this.id}}" class="product-card">
+                    <a href="/product/{{this._id}}" class="product-card">
                         <h3>{{this.title}}</h3>
                         <p>{{this.description}}</p>
                         <p><strong>Género:</strong> {{this.genre}}</p>
                         <p><strong>Precio:</strong> ${{this.price}}</p>
                         <p><strong>Stock:</strong> {{this.stock}}</p>
+                        <button onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
                     </a>
                 {{/each}}
+            </div>
+
+            <div class="pagination">
+                {{#if hasPrevPage}}
+                    <a href="{{prevLink}}">Anterior</a>
+                {{/if}}
+                {{#if hasNextPage}}
+                    <a href="{{nextLink}}">Siguiente</a>
+                {{/if}}
             </div>
         </main>
     </body>

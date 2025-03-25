@@ -13,26 +13,42 @@
             <p><strong>Género:</strong> {{product.genre}}</p>
             <p><strong>Precio:</strong> ${{product.price}}</p>
             <p><strong>Stock:</strong> {{product.stock}}</p>
-            <button onclick="addToCart('{{product.id}}')">Agregar al carrito</button>
+            <button onclick="addToCart('{{product._id}}')">Agregar al carrito</button>
             <a href="/tienda">Volver a la tienda</a>
         </main>
 
         <script>
-            function addToCart(productId){
-                const cartId=1
-                fetch(`/api/carts/${cartId}/product/${productId}`,{
-                    method:'POST',
-                    headers:{
-                        'Content-Type':'application/json'
-                    }
-                }).then(response=>{
+            async function addToCart(productId){
+                try{
+                    const response=await fetch(`/api/carts/1/products/${productId}`,{
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json'
+                        }
+                    })
+
                     if(!response.ok){
-                        alert('Producto agregado al carrito')
+                        const error=await response.json()
+                        throw new Error(error.message||'Error al agregar al carrito')
                     }
-                }).catch(error=>{
-                    cosole.error('Error',error)
-                    alert('Error al agregar el producto')
-                })
+
+                    const result=await response.json()
+                    Swal.fire({
+                        icon:'success',
+                        title:'Producto agregado',
+                        showConfirmButton:false,
+                        timer:1500
+                    })
+
+                    // Actualizar contador del carrito
+                    updateCartCounter()
+                }catch(error){
+                    Swal.fire({
+                        icon:'error',
+                        title:'Error',
+                        text:error.message
+                    })
+                }
             }
         </script>
     </body>

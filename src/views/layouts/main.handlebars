@@ -1,24 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Editorial Mar Negro</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="/css/styles.css">
     </head>
     <body>
-        <header>
-            <h1>Editorial Mar Negro</h1>
-            <p>Tu destino para libros de Ciencia Ficción, Fantasía y Terror</p>
-            <nav>
-                <a href="/">Inicio</a>
-                <a href="/tienda">Tienda</a>
-                <a href="/cart">Carrito</a>
-            </nav>
+        <header class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-brand">
+                    <a href="/" class="logo">
+                        <i class="fas fa-book-open"></i>
+                        <span>Editorial Mar Negro</span>
+                    </a>
+                </div>
+                
+                <button class="navbar-toggle" aria-label="Menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="navbar-menu">
+                    <ul class="navbar-links">
+                        <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Inicio</a></li>
+                        <li><a href="/tienda" class="nav-link"><i class="fas fa-store"></i> Tienda</a></li>
+                        <li><a href="/realtimeproducts" class="nav-link"><i class="fas fa-bolt"></i> Tiempo Real</a></li>
+                    </ul>
+                    
+                    <ul class="navbar-actions">
+                        <li>
+                            <a href="/cart" class="cart-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="cart-counter">0</span>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <button class="account-btn">
+                                <i class="fas fa-user"></i>
+                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a></li>
+                                <li><a href="#"><i class="fas fa-user-plus"></i> Registrarse</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </header>
+
         {{{body}}}
-        <footer>
-            <p>&copy; 2025 Editorial Mar Negro. Todos los derechos reservados.</p>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Editorial Mar Negro. Todos los derechos reservados.</p>
+            </div>
         </footer>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="/js/main.js"></script>
     </body>
 </html>

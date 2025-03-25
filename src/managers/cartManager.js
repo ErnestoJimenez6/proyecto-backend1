@@ -1,98 +1,50 @@
-import fs from'fs/promises'
+import mongoose from'mongoose'
+import ProductModel from'../models/product.js'
+import CartModel from'../models/cart.js'
 
 class CartManager{
-    constructor(filePath){
-        this.filePath=filePath
-        this.inicializarArchivo()
-    }
-
-    async inicializarArchivo(){
-        try{
-            await fs.access(this.filePath)
-        }catch(error){
-            if (error.code==='ENOENT'){
-                await fs.writeFile(this.filePath,'[]')
-                console.log(`Archivo ${this.filePath} creado.`)
-            }else{
-                console.error('Error al inicializar el archivo:', error);
-            }
-        }
-    }
-
-    async createCart(){
-        try{
-            const carts=await this.getCarts()
-            const newCart={
-                id:this.generateId(carts),
-                products:[]
-            }
-            carts.push(newCart)
-            await fs.writeFile(this.filePath,JSON.stringify(carts,null,2))
-            console.log('Carrito creado:',newCart)
-            return newCart
-        }catch(error){
-            console.error('Error al crear el carrito:',error)
-        }
+    constructor(){
+        this.Cart=Cart
     }
 
     async getCarts(){
-        try{
-            const data=await fs.readFile(this.filePath,'utf-8')
-            return JSON.parse(data)
-        }catch(error){
-            if(error.code==='ENOENT'){
-                console.log('El archivo no existe, se creará uno nuevo.')
-                return []
-            }else{
-                console.error('Error al leer los carritos:',error)
-                return []
-            }
-        }
+        console.error('Error en GET /api/carts:',error)
+    res.status(500).json({ 
+        error:'Error al obtener carritos',
+        details:process.env.NODE_ENV==='development'?error.message:undefined
+    })
     }
 
     async getCartById(id){
-        try{
-            const carts=await this.getCarts()
-            const cart=carts.find((c)=>c.id===id)
-            if(cart){
-                return cart
-            }else{
-                console.error('Carrito no encontrado.')
-                return null
-            }
-        }catch(error){
-            console.error('Error al obtener el carrito:',error)
-            return null
-        }
+        return await this.Cart.findById(id).populate('products.product')
+    }
+
+    async createCart(){
+        return await this.Cart.create({products:[]})
     }
 
     async addProductToCart(cartId,productId){
-        try{
-            const carts=await this.getCarts()
-            const cartIndex=carts.findIndex(c=>c.id===cartId)
-            if(cartIndex!==-1){
-                const cart=carts[cartIndex]
-                const productIndex=cart.products.findIndex(p=>p.product===productId)
-                if(productIndex!==-1){
-                    cart.products[productIndex].quantity+=1
-                }else{
-                    cart.products.push({product:productId,quantity:1})
-                }
-                await fs.writeFile(this.filePath,JSON.stringify(carts,null,2))
-                console.log('Producto agregado al carrito:',cart)
-                return cart
-            }else{
-                console.error('Carrito no encontrado.')
-                return null
-            }
-        }catch(error){
-            console.error('Error al agregar el producto al carrito:',error)
-            return null
-        }
-    }
+        const product=await Product.findById(productId)
+        if(!product)throw new Error('Producto no encontrado')
+        if(product.stock<1)throw new Error('Producto sin stock')
 
-    generateId(carts){
-        return carts.length>0?Math.max(...carts.map((c)=>c.id))+ 1 : 1
+        const updatedCart=await this.Cart.findOneAndUpdate(
+            {_id:cartId,'products.product':productId},
+            {$inc:{'products.$.quantity':1}},
+            {new:true}
+        )
+
+        if(!updatedCart){
+            await this.Cart.findByIdAndUpdate(
+                cartId,
+                {$push:{products:{product:productId,quantity:1}}},
+                {new:true,upsert:true}
+            )
+        }
+
+        await Product.findByIdAndUpdate(productId,{$inc:{stock: -1}})
+
+        return this.getCartById(cartId)
     }
 }
 

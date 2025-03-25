@@ -1,58 +1,152 @@
 [
-  {
-    "id":1,
-    "title":"Dune",
-    "description":"Una épica historia de ciencia ficción en el desértico planeta Arrakis.",
-    "price":2000,
-    "genre":"Ciencia Ficción",
-    "stock":20
-  },
-  {
-    "id":2,
-    "title":"El Señor de los Anillos",
-    "description":"La clásica trilogía de fantasía que sigue la búsqueda del Anillo Único.",
-    "price":1500,
-    "genre":"Fantasía",
-    "stock":15
-  },
-  {
-    "id":3,
-    "title":"It",
-    "description":"Una aterradora historia sobre un payaso malévolo que aterroriza a un pueblo.",
-    "price":1000,
-    "genre":"Terror",
-    "stock":8
-  },
-  {
-    "id":4,
-    "title":"1984",
-    "description":"Una distopía clásica que explora temas de vigilancia y control gubernamental.",
-    "price":900,
-    "genre":"Ciencia Ficción",
-    "stock":12
-  },
-  {
-    "id":5,
-    "title":"Harry Potter y la Piedra Filosofal",
-    "description":"El primer libro de la famosa serie de fantasía sobre un joven mago.",
-    "price":1100,
-    "genre":"Fantasía",
-    "stock":20
-  },
-  {
-    "id":6,
-    "title":"El Resplandor",
-    "description":"Una novela de terror sobre un hombre que enloquece en un hotel aislado.",
-    "price":950,
-    "genre":"Terror",
-    "stock":7
-  },
-  {
-    "id":7,
-    "title":"Neuromante",
-    "description":"La novela de ciencia ficción que definió el cyberpunk.",
-    "price":1500,
-    "genre":"Ciencia Ficción",
-    "stock":10
-  }
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b71236"
+        },
+        "title": "Duna",
+        "description": "Una épica historia de política, religión y ecología en un futuro lejano.",
+        "price": 25.99,
+        "genre": "Ciencia Ficción",
+        "stock": 50
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b71237"
+        },
+        "title": "Neuromante",
+        "description": "La novela que definió el género cyberpunk.",
+        "price": 22.5,
+        "genre": "Ciencia Ficción",
+        "stock": 30
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b71238"
+        },
+        "title": "El jardín de las máquinas parlantes",
+        "description": "Una obra surrealista y filosófica sobre la relación entre humanos y máquinas.",
+        "price": 20,
+        "genre": "Ciencia Ficción",
+        "stock": 20
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b71239"
+        },
+        "title": "Dhalgren",
+        "description": "Una novela experimental y compleja sobre una ciudad en ruinas.",
+        "price": 28.75,
+        "genre": "Ciencia Ficción",
+        "stock": 15
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b7123a"
+        },
+        "title": "Ubik",
+        "description": "Una exploración de la realidad y la percepción en un futuro distópico.",
+        "price": 24.99,
+        "genre": "Ciencia Ficción",
+        "stock": 40
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b7123b"
+        },
+        "title": "Perdido Street Station",
+        "description": "Una historia oscura y fascinante en una ciudad llena de criaturas extrañas.",
+        "price": 27.5,
+        "genre": "Fantasía",
+        "stock": 35
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b7123c"
+        },
+        "title": "Jardines de la Luna",
+        "description": "El primer libro de la serie Malaz, lleno de magia y complejidad política.",
+        "price": 26,
+        "genre": "Fantasía",
+        "stock": 25
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b7123d"
+        },
+        "title": "Obras completas de Conan el bárbaro",
+        "description": "Las aventuras del legendario guerrero en un mundo de espada y brujería.",
+        "price": 30,
+        "genre": "Fantasía",
+        "stock": 45
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b7123e"
+        },
+        "title": "Elric de Melniboné",
+        "description": "La historia del emperador albino y su espada demoníaca.",
+        "price": 23.99,
+        "genre": "Fantasía",
+        "stock": 20
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b7123f"
+        },
+        "title": "Juego de tronos",
+        "description": "El primer libro de la serie Canción de Hielo y Fuego, lleno de intrigas y batallas.",
+        "price": 29.99,
+        "genre": "Fantasía",
+        "stock": 60
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b71240"
+        },
+        "title": "Obras completas de Lovecraft",
+        "description": "Recopilación de los relatos del maestro del horror cósmico.",
+        "price": 35,
+        "genre": "Terror",
+        "stock": 50
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b71241"
+        },
+        "title": "Cadáver exquisito",
+        "description": "Una novela perturbadora sobre un mundo donde el canibalismo es la norma.",
+        "price": 21.5,
+        "genre": "Terror",
+        "stock": 30
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b71242"
+        },
+        "title": "La conspiración contra la raza humana",
+        "description": "Un ensayo filosófico que explora la naturaleza oscura de la humanidad.",
+        "price": 19.99,
+        "genre": "Terror",
+        "stock": 25
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b71243"
+        },
+        "title": "La fábrica de avispas",
+        "description": "Una novela oscura y perturbadora sobre la familia y la locura.",
+        "price": 22.75,
+        "genre": "Terror",
+        "stock": 20
+    },
+    {
+        "_id": {
+            "$oid": "67e0bb57a3e62fed02b71244"
+        },
+        "title": "Drácula",
+        "description": "La clásica historia del conde vampiro que aterroriza Inglaterra.",
+        "price": 18.99,
+        "genre": "Terror",
+        "stock": 40
+    }
 ]
