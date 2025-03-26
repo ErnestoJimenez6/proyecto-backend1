@@ -37,7 +37,7 @@ app.engine('handlebars',engine({
         allowProtoMethodsByDefault:true
     },
     helpers:{
-        multiply:(a,b)=>a*b,
+        multiply:(a,b)=>a*b.toFixed(2),
         calculateTotal:(products)=>{
             return products.reduce((total,item)=>total+(item.quantity*item.product.price),0)
         }
@@ -68,6 +68,7 @@ const httpServer=app.listen(port,()=>{
 
 // Configuración de Socket.io
 const io=new Server(httpServer)
+app.set('io',io)
 io.on('connection',async(socket)=>{
     console.log('Usuario conectado...')
     const products=await productManager.getProducts()

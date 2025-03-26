@@ -54,16 +54,37 @@ class CartManager{
                 updatedCart=await this.CartModel.findByIdAndUpdate(
                     cartId,
                     {$push:{products:{product:productId,quantity:1}}},
-                    {new:true,upsert:true}
+                    {new:true}
                 )
             }
 
             await this.ProductModel.findByIdAndUpdate(productId,{$inc:{stock: -1}})
-
             return this.getCartById(cartId)
         }catch(error){
-            console.error(`Error adding product ${productId} to cart ${cartId}:`,error)
+            console.error(`Error al agregar ${productId} al carrito ${cartId}:`,error)
             throw error
+        }
+    }
+
+    async deleteProductFromCart(cartId,productId){
+        try{
+            const cart=await this.CartModel.findById(cartId)
+            if(!cart)throw new Error('Carrito no encontrado')
+
+            const productIndex=cart.products.findIndex(
+                item=>item.product.toString()===productId
+            )
+
+            if(productIndex=== -1)throw new Error('Producto no encontrado en el carrito')
+
+            cart.products.splice(productIndex,1)
+
+            await cart.save()
+
+            return await this.CartModel.findById(cartId).populate('products.product')
+        }catch(error){
+            console.error(`Error eliminando producto ${productId} del carrito ${cartId}:`,error)
+            throw new Error(`Error eliminando producto del carrito: ${error.message}`)
         }
     }
 }

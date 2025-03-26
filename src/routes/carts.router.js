@@ -27,15 +27,20 @@ export default(cartManager)=>{
         }
     })
 
-    router.post('/:cid/products/:pid',async(req,res)=>{
+    router.post('/active/products/:pid',async(req,res)=>{
         try{
-            const cart=await cartManager.addProductToCart(
-                req.params.cid, 
+            const carts=await cartManager.getCarts()
+            let cart=carts.length>0?carts[0]:await cartManager.createCart()
+            
+            const updatedCart=await cartManager.addProductToCart(
+                cart._id, 
                 req.params.pid
             )
 
-            req.app.get('io').emit('cartUpdated',cart)
-            res.status(200).json(cart)
+            if(req.app.get('io')){
+                req.app.get('io').emit('cartUpdated',updatedCart)
+            }
+            res.status(200).json(updatedCart)
         }catch(error){
             res.status(400).json({ 
                 error:error.message,
@@ -78,7 +83,10 @@ export default(cartManager)=>{
     })
 
     router.delete('/:cid/products/:pid',async(req,res)=>{
-        const cart=await cartManager.deleteProductFromCart(req.params.cid,req.params.pid)
+        const cart=await cartManager.deleteProductFromCart(
+            req.params.cid,
+            req.params.pid
+        )
         if(cart){
             res.json(cart)
         }else{

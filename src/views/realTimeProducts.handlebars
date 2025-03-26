@@ -11,20 +11,10 @@
     {{/each}}
 </div>
 
-<form id="productForm">
-    <input type="text" id="title" placeholder="Título" required>
-    <input type="text" id="description" placeholder="Descripción" required>
-    <input type="number" id="price" placeholder="Precio" required>
-    <input type="text" id="genre" placeholder="Género" required>
-    <input type="number" id="stock" placeholder="Stock" required>
-    <button type="submit">Agregar Libro</button>
-</form>
-
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket=io()
 
-    // Escuchar eventos de actualización de productos
     socket.on('updateProducts',(products)=>{
         const productList=document.getElementById('productList')
         productList.innerHTML=''

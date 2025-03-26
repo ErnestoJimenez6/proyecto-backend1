@@ -11,6 +11,12 @@
             <button onclick="addToCart('{{this.id}}')">Agregar al carrito</button>
         </a>
     {{/each}}
+    {{#if hasPrevPage}}
+        <a href="{{prevLink}}">Anterior</a>
+    {{/if}}
+    {{#if hasNextPage}}
+        <a href="{{nextLink}}">Siguiente</a>
+    {{/if}}
 </div>
 
 <script>
